@@ -301,4 +301,61 @@ A StorageClass in Kubernetes provides a way to dynamically provision storage. In
 
 a storage provider (like AWS EBS, GCE Persistent Disk, NFS, or Ceph).
 
+Here’s an example of a StorageClass that provisions AWS EBS (gp2) storage:
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gp2-storage-class
+provisioner: kubernetes.io/aws-ebs  # Defines the storage backend
+parameters:
+  type: gp2  # AWS EBS gp2 (general-purpose SSD)
+  fsType: ext4  # File system type
+reclaimPolicy: Retain  # Keep the storage even if the PVC is deleted
+volumeBindingMode: Immediate  # Binds PV as soon as PVC is created
+
+```
+Explanation:
+
+provisioner → Defines the backend storage provider (AWS EBS in this case).
+
+parameters → Storage type (gp2 = SSD) and filesystem (ext4).
+
+reclaimPolicy → Retain means the PV will remain even if the PVC is deleted. Other options:
+
+Delete → The volume is deleted when PVC is deleted.
+
+Recycle → The volume is scrubbed and reused.
+
+volumeBindingMode → Immediate means storage is allocated immediately, but WaitForFirstConsumer waits for a Pod to request it.
+
+
+Now that we have a StorageClass, let’s create a PersistentVolumeClaim (PVC) that requests storage dynamically.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-dynamic-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce  # The volume can be mounted by only one node at a time
+  resources:
+    requests:
+      storage: 1Gi  # Requesting 1GB of storage
+  storageClassName: gp2-storage-class  # Refers to the StorageClass we created earlier
+
+
+```
+What happens here?
+
+The PVC requests 1Gi of storage and specifies storageClassName: gp2-storage-class.
+
+Kubernetes finds the StorageClass named gp2-storage-class and provisions a PersistentVolume dynamically.
+
+The new PV is bound to the PVC.
+
+Any Pod using this PVC can now mount the dynamically created storage.
+
 
