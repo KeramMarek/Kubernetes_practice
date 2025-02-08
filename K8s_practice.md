@@ -70,4 +70,11 @@ we can test the volume by creating a file inside /usr/share/nginx/html with
 ```bash
 echo "Type your sentance to dislpaly on nginx webpage" > /usr/share/nginx/html/index.html
 ```
+when you forward to port 30000 in visal studio you can access the ngix page on localhost:30000
+
+if you want to access the page on port 8000 you have to port forward the port with 
+
+```bash
+kubectl port-forward svc/nginx-service 8000:8000
+```
 
