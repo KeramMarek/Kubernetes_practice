@@ -57,6 +57,14 @@ After applying the manifest with:
 ```bash
 kubectl apply -f manifest.yaml
 ```
+we can get inside the container with:
+
+```bash
+kubectl get all
+
+kubectl exec -it pods/ng-6b4867bd6f-4nsrd -- bash
+
+```
 we can test the volume by creating a file inside /usr/share/nginx/html with 
 
 ```bash
