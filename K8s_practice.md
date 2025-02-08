@@ -295,6 +295,10 @@ Create the Persistent Volume (PV) on the EC2 host.
 Create a Persistent Volume Claim (PVC) that requests storage from the PV.
 
 Create the Nginx Deployment that uses the PVC to mount storage at /usr/share/nginx/html.
+# Storage Class
 
+A StorageClass in Kubernetes provides a way to dynamically provision storage. Instead of manually creating PersistentVolumes (PVs) and binding them to PersistentVolumeClaims (PVCs), a StorageClass automates this process by requesting storage from
+
+a storage provider (like AWS EBS, GCE Persistent Disk, NFS, or Ceph).
 
 
