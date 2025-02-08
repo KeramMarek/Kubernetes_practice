@@ -52,12 +52,12 @@ spec:
   type: NodePort
 ```
 
-After applying the manfifest with:
+After applying the manifest with:
 
 ```bash
 kubectl apply -f manifest.yaml
 ```
-we can test the volume by creating a file inside /usr/share/nginx/html witth 
+we can test the volume by creating a file inside /usr/share/nginx/html with 
 
 ```bash
 echo "Type your sentance to dislpaly on nginx webpage" > /usr/share/nginx/html/index.html
