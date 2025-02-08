@@ -77,8 +77,61 @@ if you want to access the page on port 8000 you have to port forward the port wi
 ```bash
 kubectl port-forward svc/nginx-service 8000:8000
 ```
-I you use in type: LoadBalancer you can only access the page through service Port:
+in type: LoadBalancer you can only access the page through service Port:
 ```bash
-http://localhost:9000
+http://localhost:8000
 ```
-
+# Manifest for Nginx Deployment with resources, volumes using hostPath and service.
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ng
+  name: ng
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ng
+  template:
+    metadata:
+      labels:
+        app: ng
+    spec:
+      containers:
+        - image: nginx:latest
+          name: ng
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.5"
+            limits:
+              memory: "128Mi"
+              cpu: "1"
+          volumeMounts:
+            - name: storage-dir
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: storage-dir
+          hostPath:
+            path: /tmp/www
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ng
+  name: nginx-service
+spec:
+  ports:
+    - name: http
+      port: 9000
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: ng
+  type: LoadBalancer
+```
+the volume /tmp/www that is on the ec2 machine is mounted inside the container in /usr/share/nginx/html.
