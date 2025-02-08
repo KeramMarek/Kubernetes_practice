@@ -77,4 +77,8 @@ if you want to access the page on port 8000 you have to port forward the port wi
 ```bash
 kubectl port-forward svc/nginx-service 8000:8000
 ```
+I you use in type: LoadBalancer you can only access the page through service Port:
+```bash
+http://localhost:9000
+```
 
