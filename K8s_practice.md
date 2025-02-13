@@ -81,6 +81,17 @@ in type: LoadBalancer you can only access the page through service Port:
 ```bash
 http://localhost:8000
 ```
+# Port-forwarding na úroveň podu: Ak chceš otestovať aplikáciu na úrovni podu (kvôli inému portu), použiješ príkaz kubectl port-forward:
+```bash
+kubectl port-forward pod/<pod-name> 9000:9000 --namespace rambo
+
+```
+# Port-forwarding na úrovni služby: Ak chceš otestovať aplikáciu cez službu (kvôli externej dostupnosti), použiješ príkaz:
+```bash
+kubectl port-forward service/firstblood 32000:9000 --namespace rambo
+```
+Týmto spôsobom by si mal byť schopný pripojiť sa k aplikácii cez port 32000 a skontrolovať, či všetko funguje správne.
+
 # Manifest for Nginx Deployment with resources, volumes using hostPath and service.
 ```yaml
 apiVersion: apps/v1
