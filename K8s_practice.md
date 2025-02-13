@@ -81,12 +81,12 @@ in type: LoadBalancer you can only access the page through service Port:
 ```bash
 http://localhost:8000
 ```
-# Port-forwarding na úroveň podu: Ak chceš otestovať aplikáciu na úrovni podu (kvôli inému portu), použiješ príkaz kubectl port-forward:
+#### Port-forwarding na úroveň podu: Ak chceš otestovať aplikáciu na úrovni podu (kvôli inému portu), použiješ príkaz kubectl port-forward:
 ```bash
 kubectl port-forward pod/<pod-name> 9000:9000 --namespace rambo
 
 ```
-# Port-forwarding na úrovni služby: Ak chceš otestovať aplikáciu cez službu (kvôli externej dostupnosti), použiješ príkaz:
+#### Port-forwarding na úrovni služby: Ak chceš otestovať aplikáciu cez službu (kvôli externej dostupnosti), použiješ príkaz:
 ```bash
 kubectl port-forward service/firstblood 32000:9000 --namespace rambo
 ```
